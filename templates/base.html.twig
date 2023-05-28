@@ -1,19 +1,46 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}MDT LSPD META RP{% endblock %}</title>
+    <link rel="icon" href="{{ '/assets/img/lspd.png' }}"> {# logo perso#}
+    <link href="{{ '/assets/css/bootstrap.css' }}" rel="stylesheet">{# CSS bootstrap#}
+    <link href="{{ '/assets/css/style.css' }}" rel="stylesheet"> {# CSS perso#}
+</head>
+<body class="text-light">
+<a href="{{ path('app_home')}}">
+    <img  class="w-100" src="{{ asset('assets/img/banner.gif')}}" alt="logo lspd">
+</a>
+{% if app.user %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path('app_home') }}">Accueil</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_arrestation_index') }}">Arrestations</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('app_suspect_index') }}">Civils<span class="sr-only">(déjà arrétté)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_judiciary_case_index') }}">Casier Judiciaire</a>
+                </li>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-outline-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+            </form>
+        </div>
+    </nav>
+{% endif %}
+
+{% block content %}
+
+{% endblock %}
+</body>
+<script src="{{ '/assets/js/bootstrap.js' }}"></script>
 </html>

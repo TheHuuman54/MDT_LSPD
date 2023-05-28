@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - MDT LSPD{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <hr>
+        <div class="row text-center text-light pt-4">
+            {% if app.user %}
+                <p> Bonjour {{ app.user.rank }} {{ app.user.firstname }} {{app.user.lastname}} !!</p>
+            {% else %}
+                <p>
+                    Bonjour/Bonsoir, si vous êtes là c'est soit vous êtes perdu, soit vous êtes <b>Agent LSPD</b>.
+                    <br>
+                    <br>
+
+                    1 - Vous êtes perdu, je vous invite à rejoindre ce serveur GTARP : <a href="https://discord.gg/metafa">META RP FA</a> .
+                    <br><br>
+                    2 - Vous êtes Agent LSPD, je vous invite à vous <a href="{{path('app_register')}}">inscrire</a>
+                    ou vous <a href="{{path('app_login')}}">connecter</a>
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

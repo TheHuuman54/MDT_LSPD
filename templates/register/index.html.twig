@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Inscription - MDT LSPD{% endblock %}
+
+{% block content %}
+
+    <h1 class="pt-3 text-center text-light text-uppercase"> Inscription </h1>
+    {% if notificationSuccess %} {# Si la variable notification est présente dans le controlleur associée#}
+        <div class="alert alert-info">{{ notificationSuccess }}</div> {# on affiche la variable notification a la vue twig #}
+        <hr>
+    {% endif %}
+    {% if notificationError %}
+        <div class="alert alert-danger">{{ notificationError }}</div> {# on affiche la variable notification a la vue twig #}
+        <hr>
+    {% endif %}
+
+    <div class="pt-6 container text-light text-uppercase font-weight-bold">
+        <div class="row">
+            <div class="col-md-8">
+                {{ form(form) }} {# création d'un formulaire grâce a la méthode symfony/twig form et (form) est la variable créé dans RegisterController.php #}
+            </div>
+            <div class="col-md-4 d-flex align-items-center">
+                <img src="{{ asset('assets/img/logoRegisterLSPD.png')}}" alt="logo lspd">
+            </div>
+        </div>
+    </div>
+{% endblock %}
