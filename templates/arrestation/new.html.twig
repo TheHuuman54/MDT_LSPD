@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle arrestation{% endblock %}
+
+{% block content %}
+{% if app.user %}
+    <h1 class="text-center mt-5">Nouvelle Arrestation</h1>
+    <div class="container mt-5">
+        {{ include('arrestation/_form.html.twig') }}
+
+        <a class="btn btn-outline-warning" href="{{ path('app_arrestation_index') }}">Retour à la liste des arrestations</a>
+    </div>
+{% else %}
+    <h1 class="text-center mt-5">
+        ERROR 404 - NOT FOUND
+    </h1>
+    <p class="mt-5 text-center">La page demandée n'existe pas.</p>
+{% endif %}
+{% endblock %}

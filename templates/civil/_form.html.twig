@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+{% if app.request.attributes.get('_route') == 'app_civil_edit'  %}
+    <h5>Carte d'identités / Permis / PPA</h5>
+    <div class="row">
+        {% for img in civil.documents %}
+            <div class="col-md-3 m-2">
+                <img src="{{ asset('assets/uploads/documents/mini/300x300-') ~ img.filename }}" alt="img.filename">
+                <a href="{{ path('app_justicePicture_delete', {id: img.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ img.id) }}" class="btn btn-danger float-md-end">Supprimer</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+    <button class="btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+{{ form_end(form) }}

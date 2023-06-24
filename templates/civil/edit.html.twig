@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier : {{ civil.firstname }} {{ civil.lastname }}{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mt-4">Modifier : {{ civil.firstname }} {{ civil.lastname }}</h1>
+
+    <div class="container mt-4">
+        {{ include('civil/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+        <div class="d-flex justify-content-end">
+            <a href="{{ path('app_civil_index') }}"><button class="btn btn-info">Retour aux civils</button></a>
+            {{ include('civil/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+
+{% endblock %}

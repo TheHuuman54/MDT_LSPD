@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Civils recensés{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mt-5">Liste des civils</h1>
+
+    <div class="row mt-4">
+        <div class="col-md-2">
+            <h4 class="fs-5">Effectuer une recherche par nom</h4>
+            <form>
+                {{ form_row(form.string) }}
+                {{ form_widget(form.filtrer) }}
+            </form>
+        </div>
+        <div class="col-md-10">
+            <table class="table text-white">
+                <thead>
+                <tr>
+                    <th>Arrestations</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Taille</th>
+                    <th>ID Unique</th>
+                    <th>Age</th>
+                    <th>Numéro de téléphone</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for civil in civils %}
+                    <tr>
+                        {% if civil.arrestations != false %}
+                            {% for arrestation in civil.arrestations %}
+                                <td><img  height="20px" class="emojidex-emoji" src="https://cdn.emojidex.com/emoji/seal/hand_cuffs.png" emoji-code="hand_cuffs" alt="hand cuffs" /></td>
+                            {% endfor %}
+                        {% else %}
+                            <td>0</td>
+                        {% endif %}
+                        <td>{{ civil.firstname }}</td>
+                        <td>{{ civil.lastname }}</td>
+                        <td>{{ civil.height }}</td>
+                        <td>{{ civil.idUnique }}</td>
+                        <td>{{ civil.age }}</td>
+                        <td>{{ civil.telNumber }}</td>
+                        <td>
+                            <a href="{{ path('app_civil_show', {'id': civil.id}) }}">&#128065;&#65039;</a>
+                            <a href="{{ path('app_civil_edit', {'id': civil.id}) }}">&#9997;</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center">Aucun civil recensé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ path('app_civil_new') }}"><button class="btn btn-warning">Nouveau recensement</button></a>
+        </div>
+    </div>
+
+{% endblock %}

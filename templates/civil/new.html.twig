@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau recensement{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mt-4">Nouveau recensement</h1>
+<div class="container mt-4">
+    {{ include('civil/_form.html.twig') }}
+<div class="d-flex justify-content-end ">
+    <a href="{{ path('app_civil_index') }}">
+        <button class="btn btn-info">Retour à la liste</button>
+    </a>
+</div>
+</div>
+{% endblock %}
