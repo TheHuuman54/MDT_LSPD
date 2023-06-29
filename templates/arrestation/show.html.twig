@@ -16,7 +16,6 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID Unique : {{ arrestation.suspect.idUnique }}</li>
                 <li class="list-group-item">Date d'arrestation : {{ arrestation.date ? arrestation.date|date('d/m/Y H:i') : '' }}</li>
-                <li class="list-group-item">Taille : {{ arrestation.suspect.height }} cm</li>
                 <li class="list-group-item">Numéro de téléphone : {{ arrestation.suspect.telNumber }}</li>
                 <li class="list-group-item">Date de naissance : {{ arrestation.suspect.age ? arrestation.suspect.age|date('d/m/Y') : '' }}</li>
                 <li class="list-group-item">Début GAV : {{ arrestation.gavStart ? arrestation.gavStart|date('d/m/Y H:i') : '' }}</li>

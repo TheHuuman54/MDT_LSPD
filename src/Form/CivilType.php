@@ -3,7 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Civil;
+use App\Entity\Ethnie;
+use App\Entity\Gender;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,17 +31,25 @@ class CivilType extends AbstractType
                     'placeholder' => 'Nom du civil'
                 ],
             ])
-            ->add('height', IntegerType::class, [
-                'label' => 'Taille(cm)'
+            ->add('type', EntityType::class, [
+                'class' => Ethnie::class,
+                'label' => 'Type du Civil'
+            ])
+            ->add('gender', EntityType::class, [
+                'class' => Gender::class,
+                'label' => 'Genre',
+                'multiple' => false,
+                'expanded' => true
             ])
             ->add('idUnique', IntegerType::class, [
-                'label' => 'ID UNIQUE'
+                'label' => 'ID UNIQUE',
             ])
             ->add('age', IntegerType::class, [
                 'label' => 'Âge'
             ])
             ->add('telNumber', TextType::class, [
-                'label' => 'Numéro de téléphone'
+                'label' => 'Numéro de téléphone',
+                'required' => false
             ])
             ->add('documents', FileType::class, [
                 'label' => 'Carte d\'identité / Permis de Conduire / PPA',

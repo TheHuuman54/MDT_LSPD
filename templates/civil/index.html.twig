@@ -20,7 +20,6 @@
                     <th>Arrestations</th>
                     <th>Prénom</th>
                     <th>Nom</th>
-                    <th>Taille</th>
                     <th>ID Unique</th>
                     <th>Age</th>
                     <th>Numéro de téléphone</th>
@@ -30,22 +29,16 @@
                 <tbody>
                 {% for civil in civils %}
                     <tr>
-                        {% if civil.arrestations != false %}
-                            {% for arrestation in civil.arrestations %}
-                                <td><img  height="20px" class="emojidex-emoji" src="https://cdn.emojidex.com/emoji/seal/hand_cuffs.png" emoji-code="hand_cuffs" alt="hand cuffs" /></td>
-                            {% endfor %}
-                        {% else %}
-                            <td>0</td>
-                        {% endif %}
+                        <td>{{ civil.getTotalArrestations }}</td>
                         <td>{{ civil.firstname }}</td>
                         <td>{{ civil.lastname }}</td>
-                        <td>{{ civil.height }}</td>
                         <td>{{ civil.idUnique }}</td>
                         <td>{{ civil.age }}</td>
                         <td>{{ civil.telNumber }}</td>
                         <td>
-                            <a href="{{ path('app_civil_show', {'id': civil.id}) }}">&#128065;&#65039;</a>
-                            <a href="{{ path('app_civil_edit', {'id': civil.id}) }}">&#9997;</a>
+                            <a href="{{ path('app_civil_show', {'id': civil.id}) }}" class="text-decoration-none">&#128065;&#65039;</a>
+                            <a href="{{ path('app_civil_edit', {'id': civil.id}) }}" class="text-decoration-none">&#9997;</a>
+                            <a href="{{ path('app_arrestation_new') }}" class="text-decoration-none"><img  height="20px" class="emojidex-emoji" src="https://cdn.emojidex.com/emoji/seal/hand_cuffs.png" emoji-code="hand_cuffs" alt="hand cuffs"></a>
                         </td>
                     </tr>
                 {% else %}

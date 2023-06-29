@@ -21,9 +21,6 @@ class Civil
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $height = null;
-
     #[ORM\Column]
     private ?int $idUnique = null;
 
@@ -38,6 +35,18 @@ class Civil
 
     #[ORM\OneToMany(mappedBy: 'suspect', targetEntity: Arrestation::class, cascade: ['persist'],orphanRemoval: true)]
     private Collection $arrestations;
+
+    #[ORM\ManyToOne(inversedBy: 'civils')]
+    private ?Ethnie $type = null;
+
+    #[ORM\ManyToOne(inversedBy: 'civils')]
+    private ?Gender $gender = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $PPA = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $driveCard = null;
 
     public function __construct()
     {
@@ -74,18 +83,6 @@ class Civil
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getHeight(): ?int
-    {
-        return $this->height;
-    }
-
-    public function setHeight(?int $height): self
-    {
-        $this->height = $height;
 
         return $this;
     }
@@ -182,6 +179,75 @@ class Civil
                 $arrestation->setSuspect(null);
             }
         }
+        return $this;
+    }
+
+    public function getTotalArrestations()
+    {
+        $totalArrestation = count($this->getArrestations());
+        return $totalArrestation;
+    }
+
+    public function getType(): ?Ethnie
+    {
+        return $this->type;
+    }
+
+    public function setType(?Ethnie $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getGender(): ?Gender
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?Gender $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function fixPicture()
+    {
+        $da = [];
+        foreach($this->getDocuments() as $d)
+        {
+            $da[]= $d;
+        }
+        if(empty($da))
+        {
+            $da = null;
+        } else {
+            return $da;
+        }
+        return $da;
+    }
+
+    public function isPPA(): ?bool
+    {
+        return $this->PPA;
+    }
+
+    public function setPPA(?bool $PPA): self
+    {
+        $this->PPA = $PPA;
+
+        return $this;
+    }
+
+    public function isDriveCard(): ?bool
+    {
+        return $this->driveCard;
+    }
+
+    public function setDriveCard(?bool $driveCard): self
+    {
+        $this->driveCard = $driveCard;
 
         return $this;
     }

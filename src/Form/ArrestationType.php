@@ -44,7 +44,8 @@ class ArrestationType extends AbstractType
                 'required' => false
             ])
             ->add('observation', TextareaType::class, [
-                'label' => 'Observations'
+                'label' => 'Observations',
+                'required'=> false
             ])
             ->add('gavStart', DateTimeType::class, [
                 'label' => 'Début de G.A.V'
