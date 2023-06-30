@@ -28,9 +28,10 @@
                 <li class="nav-item">
                         <a class="btn btn-outline-warning" href="{{ path('super_admin') }}">ACCES ADMINISTRATEUR</a>
                 </li>
-
+                {% endif %}
+                {% if is_granted('ROLE_USER') %}
                 <li class="nav-item">
-                    <a class="btn btn-outline-primary" href="{{ path('app_home') }}">{{ app.user.firstname }}  {{ app.user.lastname }}</a>
+                    <a class="btn btn-outline-primary" href="{{ path('app_account') }}">{{ app.user.firstname }}  {{ app.user.lastname }}</a>
                 </li>
                 {% endif %}
             </ul>

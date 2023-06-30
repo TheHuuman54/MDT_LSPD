@@ -3,14 +3,11 @@
 namespace App\Controller;
 
 use App\Classe\Search;
-use App\Entity\Arrestation;
 use App\Entity\Civil;
 use App\Entity\Pictures;
 use App\Form\CivilType;
 use App\Form\SearchType;
-use App\Repository\ArrestationRepository;
 use App\Repository\CivilRepository;
-use App\Repository\PicturesRepository;
 use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -109,7 +106,7 @@ class CivilController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_civil_delete', methods: ['POST'])]
-    public function delete(PicturesRepository $picture, Request $request, ArrestationRepository $arrestation, Civil $civil, EntityManagerInterface $em, CivilRepository $civilRepository): Response
+    public function delete(Request $request, Civil $civil, CivilRepository $civilRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$civil->getId(), $request->request->get('_token'))) {
             $civilRepository->remove($civil, true);
@@ -119,7 +116,7 @@ class CivilController extends AbstractController
     }
 
     #[Route('/picture/{id}', name: 'app_documents_delete', methods: ['DELETE'])]
-    public function deleteJusticePicture(Pictures $img, EntityManagerInterface $em, Request $request, PictureService $pictureService): JsonResponse
+    public function deleteDocuments(Pictures $img, EntityManagerInterface $em, Request $request, PictureService $pictureService): JsonResponse
     {
         //On récupère le contenu de la requête
 
