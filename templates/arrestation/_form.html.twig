@@ -1,14 +1,35 @@
 {{ form_start(form) }}
-    {{ form_row(form.suspect) }}
-    {{ form_row(form.date) }}
-    {{ form_row(form.gavStart) }}
-    {{ form_row(form.gavEnd) }}
+<div class="row">
+    <div class="col-md-4">
+        {{ form_row(form.suspect) }}
+    </div>
+    <div class="col-md-4">
+        {{ form_row(form.agent) }}
+    </div>
+    <div class="col-md-4">
+        {{ form_row(form.sentences) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        {{ form_row(form.date) }}
+    </div>
+    <div class="col-md-4">
+        {{ form_row(form.gavStart) }}
+    </div>
+    <div class="col-md-4">
+        {{ form_row(form.gavEnd) }}
+    </div>
+</div>
     {{ form_row(form.justicePicture) }}
     {{ form_row(form.observation) }}
 
 {% if app.request.attributes.get('_route') == 'app_arrestation_edit'  %}
-    <h2>Photos d'arrestations</h2>
+    {% if arrestation.fixJusticePicture is null %}
+        <hr>
+    {% else %}
         <div class="row">
+            <h2>Photos d'arrestations</h2>
             {% for img in arrestation.justicePicture %}
             <div class="col-md-3 m-2">
                 <img src="{{ asset('assets/uploads/justicePicture/mini/300x300-') ~ img.filename }}" alt="img.filename">
@@ -16,9 +37,8 @@
             </div>
             {% endfor %}
         </div>
+        {% endif %}
 {% endif %}
-<div class="col-md-4">
-    {{ form_row(form.sentences) }}
-</div>
+
     <button class="btn btn-outline-success float-xl-end mb-5">{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}

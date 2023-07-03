@@ -3,12 +3,16 @@
 namespace App\Form;
 
 use App\Entity\Arrestation;
+use App\Entity\Category;
 use App\Entity\Civil;
 use App\Entity\Pictures;
 use App\Entity\Sentences;
+use App\Entity\User;
 use App\Repository\SentencesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -23,19 +27,41 @@ use Symfony\Component\Validator\Constraints\Image;
 
 class ArrestationType extends AbstractType
 {
+    private EntityManagerInterface $em;
+
+    /**
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('date', DateTimeType::class, [
-                'label'=> 'Date d\'arrestation',
-                'placeholder' => [
-                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
-                    'hour' => 'Heure', 'minute' => 'Minute',
-                ]
+                'label'=> 'Date d\'arrestation :',
+                'data' => new \DateTime('now'),
+//                'disabled' => true
+//                'placeholder' => [
+//                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+//                    'hour' => 'Heure', 'minute' => 'Minute',
+//                ]
                 ])
+            ->add('agent', EntityType::class, [
+                'class' => User::class,
+                'label' => 'Agent(s) présents :',
+                'choice_label' => 'lastname',
+                'multiple' => true,
+                'autocomplete' => true,
+            ])
+
             ->add('suspect', EntityType::class,[
                 'class' => Civil::class,
-
+                'label' => 'Suspect :',
+                'autocomplete' => true
             ])
             ->add('justicePicture', FileType::class, [
                 'label' => 'Photos d\'arrestations',
@@ -48,23 +74,51 @@ class ArrestationType extends AbstractType
                 'required'=> false
             ])
             ->add('gavStart', DateTimeType::class, [
-                'label' => 'Début de G.A.V'
+                'label' => 'Début de G.A.V :'
             ])
             ->add('gavEnd', DateTimeType::class, [
-                'label' => 'Fin de G.A.V'
+                'label' => 'Fin de G.A.V :'
             ])
-            ->add('sentences', EntityType::class, [
-                'class' => Sentences::class,
-                'query_builder' => function (SentencesRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.name', 'ASC');
+            ->add(
+                'sentences',
+                EntityType::class,
+                [
+                    'class' => Sentences::class,
+                    'label' => "Faits Commis",
+//                    'expanded' => true,
+                    'multiple' => true,
+                    'group_by' => 'category',
+//                    'required' => false,
+                    //'choices_as_values' => true,
+//                    'choice_label' => function ($value, $key, $index) {
+//                        return $value;
+//                    },
+//                    'choices' => $this->getSentencesList(),
+                    'autocomplete' => true
+                ])
+//            ->add('sentences', EntityType::class, [
+//                'class' => Sentences::class,
+//                'query_builder' => function (SentencesRepository $er) {
+//                    return $er->createQueryBuilder('u')
+////                        ->andwhere('u.category = :categoryId')
+////                        ->setParameter('categoryId', 1)
+//                        ->orderBy('u.category', 'ASC');
+//
+//                },
+//                'label' => 'Faits Commis',
+//                'choice_label' => 'name',
+//                'multiple' => true,
+//                'expanded' => true,
+//            ])
 
-                },
-                'label' => 'Faits Commis',
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => true
-            ]);
+//            ->add('sentences', EntityType::class, [
+//                'class' => Sentences::class,
+//                'label' => 'Délits Majeurs',
+//                'choice_label' => 'name',
+//                'multiple' => true,
+//                'expanded' => true,
+//            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -72,5 +126,30 @@ class ArrestationType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Arrestation::class,
         ]);
+    }
+
+    private function getSentencesList():array
+    {
+        $sentences = $this->em->getRepository(Sentences::class)->createQueryBuilder('u')
+                      //->select("CONCAT(u.name,' ( ', c.name, ' )') as name, u.id as id")
+                      ->select("u.name as name, u as id, c.name as category_name")
+                      ->join(Category::class, 'c', 'WITH', 'u.category = c.id')
+                       ->orderBy('u.category', 'ASC')
+                        ->getQuery()->getResult();
+
+        $arraySentence = [];
+
+        foreach($sentences as $sentence)
+        {
+            $arraySentence[$sentence['category_name']][$sentence['name']] = $sentence['id'];
+        }
+//        foreach($sentences as $sentence)
+//        {
+//            $arraySentence[$sentence['name']] = $sentence['id'];
+//        }
+
+        //dd($arraySentence);
+
+        return $arraySentence;
     }
 }

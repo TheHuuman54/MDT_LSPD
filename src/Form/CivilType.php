@@ -19,6 +19,9 @@ class CivilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('idUnique', IntegerType::class, [
+                'label' => 'ID UNIQUE',
+            ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
                 'attr' => [
@@ -41,9 +44,7 @@ class CivilType extends AbstractType
                 'multiple' => false,
                 'expanded' => true
             ])
-            ->add('idUnique', IntegerType::class, [
-                'label' => 'ID UNIQUE',
-            ])
+
             ->add('age', IntegerType::class, [
                 'label' => 'Âge'
             ])
@@ -56,6 +57,24 @@ class CivilType extends AbstractType
                 'multiple'=> true,
                 'mapped' => false,
                 'required' => false
+            ])
+            ->add('PPA', ChoiceType::class, [
+                'label' => 'Validité du PPA',
+                'choices' => [
+                    'Valide' => 1,
+                    'Invalide' => 0
+                ],
+                'expanded' => 'true',
+                'multiple' => false
+            ])
+            ->add('driveCard', ChoiceType::class, [
+                'label' => 'Validité du permis de conduire',
+                'choices' => [
+                    'Valide' => 1,
+                    'Invalide' => 0
+                ],
+                'expanded' => 'true',
+                'multiple' => false
             ])
         ;
     }

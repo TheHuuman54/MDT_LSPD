@@ -50,6 +50,9 @@
                 </table>
             </div>
             </div>
+        <div class="d-flex justify-content-center">
+            {{ knp_pagination_render(arrestations) }}
+        </div>
         <div class="d-flex justify-content-end">
             <a href="{{ path('app_arrestation_new') }}" class="btn btn-warning">Nouvelle arrestation</a>
         </div>

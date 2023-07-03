@@ -64,7 +64,7 @@ class CivilRepository extends ServiceEntityRepository
          }*/
 
         $query->getQuery()->getResult();
-        return $this->paginator->paginate($query,$search->page,5);
+        return $this->paginator->paginate($query,$search->page,10);
     }
 
 //    /**

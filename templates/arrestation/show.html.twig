@@ -14,6 +14,11 @@
     <div class="d-md-flex justify-content-between mt-3">
         <div class="card" style="width: 24rem;">
             <ul class="list-group list-group-flush">
+                <li class="list-group-item">Agent(s) présent(s) :
+                    {% for a in arrestation.agent %}
+                    {{ a.firstname }} {{ a.lastname }}
+                    {% endfor %}
+                </li>
                 <li class="list-group-item">ID Unique : {{ arrestation.suspect.idUnique }}</li>
                 <li class="list-group-item">Date d'arrestation : {{ arrestation.date ? arrestation.date|date('d/m/Y H:i') : '' }}</li>
                 <li class="list-group-item">Numéro de téléphone : {{ arrestation.suspect.telNumber }}</li>
@@ -30,6 +35,10 @@
         </div>
 
         <div class="card">
+            {% if arrestation.fixJusticePicture is null %}
+                <p class="text-center mt-2">Veuillez ajouter des photos du suspect : <a href="{{ path('app_arrestation_edit', {'id': arrestation.id}) }}">ici</a></p>
+                <hr>
+            {% else %}
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-indicators">
                     {% for iteration in 1..arrestation.justicePicture|length %}
@@ -52,6 +61,7 @@
                     <span class="visually-hidden">Suivant</span>
                 </button>
             </div>
+                {% endif %}
             <div class="card-body">
                 <p class="card-text">Observations : {{ arrestation.observation }}</p>
             </div>

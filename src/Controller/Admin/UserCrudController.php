@@ -24,7 +24,7 @@ class UserCrudController extends AbstractCrudController
         return [
             IntegerField::new('idUnique','ID Unique'),
             TextField::new('matricule', 'Matricule'),
-            ArrayField::new('roles', 'Permissions'),
+            ArrayField::new('roles', 'Permissions')->setPermission('ROLE_SUPER_ADMIN'),
             AssociationField::new('rank','Rang'),
             TextField::new('firstname','Prénom'),
             TextField::new('lastname', 'Nom'),

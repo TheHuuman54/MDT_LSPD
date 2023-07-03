@@ -31,7 +31,6 @@ class ArrestationController extends AbstractController
         return $this->render('arrestation/index.html.twig', [
             'arrestations' => $arrestations,
             'form' => $form->createView()
-
         ]);
     }
 
@@ -57,7 +56,6 @@ class ArrestationController extends AbstractController
                 $img->setFilename($file);
                 $arrestation->addJusticePicture($img);
             }
-
             $arrestationRepository->save($arrestation, true);
 
             return $this->redirectToRoute('app_arrestation_show',array('id' => $arrestation->getID()));

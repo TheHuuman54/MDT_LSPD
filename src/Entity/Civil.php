@@ -251,4 +251,24 @@ class Civil
 
         return $this;
     }
+
+    public function checkPPA()
+    {
+        if($this->isPPA())
+        {
+            return 'Valide';
+        } else {
+            return 'Invalide';
+        }
+    }
+
+    public function checkDriveCard()
+    {
+        if($this->isDriveCard())
+        {
+            return 'Valide';
+        } else {
+            return 'Invalide';
+        }
+    }
 }

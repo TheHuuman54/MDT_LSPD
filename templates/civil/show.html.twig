@@ -5,43 +5,63 @@
 {% block content %}
     <h1 class="text-center mt-5">{{ civil.firstname }} {{ civil.lastname }}</h1>
 <div class="container d-flex justify-content-center">
-    <div class="card mt-5" style="width: 18rem;">
-        {% if civil.fixPicture is null %}
-        <p class="text-center mt-2">Veuillez ajouter des documents : <a href="{{ path('app_civil_edit', {'id': civil.id}) }}">ici</a></p>
-        <hr>
-        {% else %}
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <div class="carousel-indicators">
-                    {% for iteration in 1..civil.fixPicture|length %}
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ iteration - 1 }}" {{ (loop.first ) ?'class="active" aria-current="true"' : '' }} aria-label="Slide {{ iteration }}"></button>
-                    {% endfor %}
+    <div class="col-md-6">
+        <div class="card mt-5" style=" width: 450px">
+            {% if civil.fixPicture is null %}
+                <p class="text-center mt-2">Veuillez ajouter des documents : <a href="{{ path('app_civil_edit', {'id': civil.id}) }}">ici</a></p>
+                <hr>
+            {% else %}
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-indicators">
+                        {% for iteration in 1..civil.fixPicture|length %}
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ iteration - 1 }}" {{ (loop.first ) ?'class="active" aria-current="true"' : '' }} aria-label="Slide {{ iteration }}"></button>
+                        {% endfor %}
+                    </div>
+                    <div class="carousel-inner">
+                        {% for img in civil.fixPicture %}
+                            <div class="carousel-item {{ (loop.first) ? 'active' : ''}}">
+                                <img class="d-block w-100" src="{{ asset('assets/uploads/documents/mini/300x300-') ~ img.filename }}" alt="{{ img.filename }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Précédent</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Suivant</span>
+                    </button>
                 </div>
-                <div class="carousel-inner">
-                    {% for img in civil.fixPicture %}
-                        <div class="carousel-item {{ (loop.first) ? 'active' : ''}}">
-                            <img class="d-block w-100" src="{{ asset('assets/uploads/documents/mini/300x300-') ~ img.filename }}" alt="{{ img.filename }}">
-                        </div>
-                    {% endfor %}
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Précédent</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Suivant</span>
-                </button>
+            {% endif %}
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID Unique : {{ civil.idUnique }}</li>
+                    <li class="list-group-item">Prénom : {{ civil.firstname }}</li>
+                    <li class="list-group-item">Nom : {{ civil.lastname }}</li>
+                    <li class="list-group-item">Âge : {{ civil.age }}</li>
+                    <li class="list-group-item">Type : {{ civil.type }}</li>
+                    <li class="list-group-item">Genre : {{ civil.gender }}</li>
+                    <li class="list-group-item">PPA : {{ civil.checkPPA }}</li>
+                    <li class="list-group-item">Permis de conduire : {{ civil.checkDriveCard }}</li>
+                    <li class="list-group-item">Numéro de téléphone : {{ civil.telNumber }}</li>
+                </ul>
+                <a href="{{ path('app_arrestation_new') }}" class="btn btn-outline-danger">Arrêter {{ civil.firstname }} {{ civil.lastname }}</a>
             </div>
-        {% endif %}
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID Unique : {{ civil.idUnique }}</li>
-                <li class="list-group-item">Prénom : {{ civil.firstname }}</li>
-                <li class="list-group-item">Nom : {{ civil.lastname }}</li>
-                <li class="list-group-item">Âge : {{ civil.age }}</li>
-                <li class="list-group-item">Numéro de téléphone : {{ civil.telNumber }}</li>
-            </ul>
-            <a href="{{ path('app_arrestation_new') }}" class="btn btn-outline-danger">Arrêter {{ civil.firstname }} {{ civil.lastname }}</a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mt-5" style="...">
+            <img src="{{ asset('assets/img/arrestation.jpg') }}" class="" style="height: 310px" alt="arrestation_img">
+            <div class="card-body">
+                <h5 class="card-title text-center">Arrestations de : {{ civil.firstname }} {{ civil.lastname }}</h5>
+                <hr>
+                <ul class="list-group list-group-flush">
+                    {% for arrestation in civil.arrestations %}
+                    <li class="list-group-item"><a href="{{ path('app_arrestation_show', {'id': arrestation.id}) }}">Arrestation du {{ arrestation.date|date("d/m/Y") }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 </div>

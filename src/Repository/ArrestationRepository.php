@@ -49,12 +49,12 @@ class ArrestationRepository extends ServiceEntityRepository
     public function findWidthSearch(Search $search): PaginationInterface
     {
         $query = $this
-            ->createQueryBuilder('s');
+            ->createQueryBuilder('a');
 
 
         if (!empty($search->string)) {
             $query = $query
-                ->andWhere('s.suspectName LIKE :string')
+                ->andWhere('a.suspectName LIKE :string')
                 ->setParameter('string', "%{$search->string}%");
         }
 
@@ -65,7 +65,7 @@ class ArrestationRepository extends ServiceEntityRepository
         }*/
 
         $query->getQuery()->getResult();
-        return $this->paginator->paginate($query,$search->page,5);
+        return $this->paginator->paginate($query,$search->page,10);
     }
 
 //    /**

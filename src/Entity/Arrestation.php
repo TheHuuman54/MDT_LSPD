@@ -37,10 +37,14 @@ class Arrestation
     #[ORM\ManyToOne(inversedBy: 'arrestations')]
     private ?Civil $suspect = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'arrestations')]
+    private Collection $agent;
+
     public function __construct()
     {
         $this->justicePicture = new ArrayCollection();
         $this->sentences = new ArrayCollection();
+        $this->agent = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,5 +200,45 @@ class Arrestation
         $this->suspect = $suspect;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getAgent(): Collection
+    {
+        return $this->agent;
+    }
+
+    public function addAgent(User $agent): self
+    {
+        if (!$this->agent->contains($agent)) {
+            $this->agent->add($agent);
+        }
+
+        return $this;
+    }
+
+    public function removeAgent(User $agent): self
+    {
+        $this->agent->removeElement($agent);
+
+        return $this;
+    }
+
+    public function fixJusticePicture()
+    {
+        $da = [];
+        foreach($this->getJusticePicture() as $d)
+        {
+            $da[]= $d;
+        }
+
+        if(empty($da))
+        {
+            $da = null;
+        } else {
+            return $da;
+        }
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -45,6 +47,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Rank $rank = null;
+
+    #[ORM\ManyToMany(targetEntity: Arrestation::class, mappedBy: 'agent')]
+    private Collection $arrestations;
+
+    public function __construct()
+    {
+        $this->arrestations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -184,6 +194,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRank(?Rank $rank): self
     {
         $this->rank = $rank;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Arrestation>
+     */
+    public function getArrestations(): Collection
+    {
+        return $this->arrestations;
+    }
+
+    public function addArrestation(Arrestation $arrestation): self
+    {
+        if (!$this->arrestations->contains($arrestation)) {
+            $this->arrestations->add($arrestation);
+            $arrestation->addAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArrestation(Arrestation $arrestation): self
+    {
+        if ($this->arrestations->removeElement($arrestation)) {
+            $arrestation->removeAgent($this);
+        }
 
         return $this;
     }
