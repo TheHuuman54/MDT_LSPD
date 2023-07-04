@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Arrestation;
 use App\Entity\Civil;
+use App\Entity\Ethnie;
+use App\Entity\Gender;
 use App\Entity\Pictures;
 use App\Entity\Rank;
 use App\Entity\Sentences;
@@ -49,12 +51,13 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToRoute('Retour au site', 'fa fa-home', 'app_home');
-        yield MenuItem::linkToCrud('User', 'fa fa-user', User::class);
+        yield MenuItem::linkToCrud('User', 'fa fa-users', User::class);
         yield MenuItem::linkToCrud('Civils','fa-solid fa-person',Civil::class);
         yield MenuItem::linkToCrud('Arrestations', 'fa-solid fa-handcuffs', Arrestation::class);
         yield MenuItem::linkToCrud('Peines et amendes', 'fa-solid fa-scale-balanced',Sentences::class);
         yield MenuItem::linkToCrud('Rang', 'fa-solid fa-ranking-star', Rank::class);
-        yield MenuItem::linkToCrud('Images', 'fa-solid fa-image', Pictures::class);
+        yield MenuItem::linkToCrud('Ethnie', 'fa fa-user', Ethnie::class);
+        yield MenuItem::linkToCrud('Genre', 'fa fa-transgender-alt', Gender::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }

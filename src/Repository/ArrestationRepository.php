@@ -49,12 +49,12 @@ class ArrestationRepository extends ServiceEntityRepository
     public function findWidthSearch(Search $search): PaginationInterface
     {
         $query = $this
-            ->createQueryBuilder('a');
-
+            ->createQueryBuilder('a')
+            ->join('a.suspect', 'c');
 
         if (!empty($search->string)) {
             $query = $query
-                ->andWhere('a.suspectName LIKE :string')
+                ->andWhere('c.firstname LIKE :string')
                 ->setParameter('string', "%{$search->string}%");
         }
 

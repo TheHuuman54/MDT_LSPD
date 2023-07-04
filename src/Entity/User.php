@@ -224,4 +224,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+//    public function getStats()
+//    {
+////        dd($this->getArrestations());
+////        $b = count($this->getArrestations());
+////        dd($b);
+//        foreach($this->getArrestations() as $a)
+//        {
+//            dd($a);
+//        }
+//
+//    }
 }

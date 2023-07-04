@@ -4,10 +4,63 @@
 
 {% block content %}
     <div class="container">
-        <hr>
         <div class="row text-center text-light pt-4">
             {% if app.user %}
-                <p> Bonjour, {{ app.user.rank }} {{ app.user.firstname }} {{app.user.lastname}} !!</p>
+                <p> Bonjour, {{ app.user.rank }} {{ app.user.matricule}} {{ app.user.firstname }} {{app.user.lastname}} !!</p>
+{#                <p>Vous avez effectué à ce jour : {{ app.user.getStats }} arrestations 2 recensement de civil</p>#}
+                <br>
+                <br>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <a href="{{ path('app_civil_index') }}">
+                                <img class="img-fluid" src="{{ '/assets/img/document.png' }}" style="" alt="Listes des civils">
+                            </a>
+                            <br>
+                            <b>
+                                <a href="{{ path('app_civil_index') }}" class="text-decoration-none text-light">
+                                    Recensement civil
+                                </a>
+                            </b>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <a href="{{ path('app_arrestation_index') }}">
+                                <img src="{{ '/assets/img/arrestation.png' }}" alt="liste arrestations" class="">
+                            </a>
+                            <br>
+                            <b>
+                                <a href="{{ path('app_arrestation_index') }}" class="text-decoration-none text-light">
+                                    Arrestations
+                                </a>
+                            </b>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <a href="#">
+                                <img src="{{ '/assets/img/casier-judiciaire.png' }}" alt="Listes casiers judiciaire">
+                                <br>
+                            </a>
+                            <b>
+                                <a href="#" class="text-decoration-none text-light">Casiers judiciaire</a>
+                            </b>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <a href="#">
+                                <img src="{{ '/assets/img/coffre-fort.png' }}" alt="Listes casiers saisis">
+                                <br>
+                            </a>
+                            <b>
+                                <a href="#" class="text-decoration-none text-light">Casiers des saisis</a>
+                            </b>
+                        </div>
+                    </div>
+                </div>
             {% else %}
                 <p>
                     Bonjour/Bonsoir, si vous êtes là c'est que soit vous êtes perdu, soit vous sur le Serveur de <b>META RP FA</b>.

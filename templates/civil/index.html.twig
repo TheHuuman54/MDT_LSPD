@@ -4,10 +4,10 @@
 
 {% block content %}
     <h1 class="text-center mt-5">Liste des civils</h1>
-
+<div class="container">
     <div class="row mt-4">
         <div class="col-md-2">
-            <h4 class="fs-5">Effectuer une recherche par nom</h4>
+            <h4 class="fs-5">Rechercher par nom :</h4>
             <form>
                 {{ form_row(form.string) }}
                 {{ form_widget(form.filtrer) }}
@@ -48,8 +48,12 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <a href="{{ path('app_civil_new') }}"><button class="btn btn-warning">Nouveau recensement</button></a>
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_civil_new') }}"><button class="btn btn-warning">Nouveau recensement</button></a>
+            </div>
         </div>
     </div>
+</div>
+
 
 {% endblock %}
