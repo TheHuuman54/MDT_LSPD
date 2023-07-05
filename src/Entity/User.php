@@ -51,9 +51,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Arrestation::class, mappedBy: 'agent')]
     private Collection $arrestations;
 
+    #[ORM\ManyToMany(targetEntity: JudiciaryCase::class, mappedBy: 'magistrate')]
+    private Collection $judiciaryCases;
+
+
+    public function __toString()
+    {
+        return $this->getRank() . ' ' .'[' . $this->getMatricule() .']'. $this->getFirstname() . $this->getLastname();
+    }
     public function __construct()
     {
         $this->arrestations = new ArrayCollection();
+        $this->judiciaryCases = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -236,4 +245,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 //        }
 //
 //    }
+
+/**
+ * @return Collection<int, JudiciaryCase>
+ */
+public function getJudiciaryCases(): Collection
+{
+    return $this->judiciaryCases;
+}
+
+public function addJudiciaryCase(JudiciaryCase $judiciaryCase): self
+{
+    if (!$this->judiciaryCases->contains($judiciaryCase)) {
+        $this->judiciaryCases->add($judiciaryCase);
+        $judiciaryCase->addMagistrate($this);
+    }
+
+    return $this;
+}
+
+public function removeJudiciaryCase(JudiciaryCase $judiciaryCase): self
+{
+    if ($this->judiciaryCases->removeElement($judiciaryCase)) {
+        $judiciaryCase->removeMagistrate($this);
+    }
+
+    return $this;
+}
 }

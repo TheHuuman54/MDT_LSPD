@@ -17,11 +17,11 @@
     <img  class="w-100" src="{{ asset('assets/img/banner.gif')}}" alt="logo lspd">
 </a>
 {% if app.user %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
         <a class="navbar-brand" href="{{ path('app_home') }}">Accueil</a>
         <a class="navbar-brand link-underline-opacity-100-hover" href="{{ path('app_civil_index') }}">Recensement des civils</a>
         <a class="navbar-brand link-underline-opacity-100-hover" href="{{ path('app_arrestation_index') }}">Arrestations</a>
-        <a class="navbar-brand link-underline-opacity-100-hover" href="#">Casiers judiciaire</a>
+        <a class="navbar-brand link-underline-opacity-100-hover" href="{{ path('app_judiciary_case_index') }}">Casiers judiciaire</a>
         <a class="navbar-brand link-underline-opacity-100-hover" href="#">Casier des saisies</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

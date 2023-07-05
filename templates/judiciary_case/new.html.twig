@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un casier judiciaire{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mt-4">Créer un casier judiciaire</h1>
+
+    {{ include('judiciary_case/_form.html.twig') }}
+
+    <a href="{{ path('app_judiciary_case_index') }}">
+        <button class="btn btn-info">Retour à la liste</button>
+    </a>
+{% endblock %}

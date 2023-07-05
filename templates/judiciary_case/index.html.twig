@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JudiciaryCase index{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mt-4">Liste des casiers judiciaire</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h4 class="fs-5">Rechercher par nom :</h4>
+            <form>
+                {{ form_row(form.string) }}
+                {{ form_widget(form.filtrer) }}
+            </form>
+        </div>
+        <div class="col-md-9">
+            <table class="table text-light">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Suspect</th>
+                    <th>Décision</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for judiciary_case in judiciary_cases %}
+                    <tr>
+                        <td>{{ judiciary_case.date ? judiciary_case.date|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ judiciary_case.suspect.firstname }} {{ judiciary_case.suspect.lastname }}</td>
+                        <td>{{ judiciary_case.decision }}</td>
+                        <td>
+                            <a href="{{ path('app_judiciary_case_show', {'id': judiciary_case.id}) }}" class="text-decoration-none">&#128065;&#65039;</a>
+                            <a href="{{ path('app_judiciary_case_edit', {'id': judiciary_case.id}) }}" class="text-decoration-none">&#9997;</a>
+                            {{ include('judiciary_case/_delete_form.html.twig') }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">Aucun casier enregistré</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+<div class="d-flex justify-content-end">
+    <a href="{{ path('app_judiciary_case_new') }}"><button class="btn btn-warning">Créer un nouveau casier</button></a>
+</div>
+</div>
+
+{% endblock %}

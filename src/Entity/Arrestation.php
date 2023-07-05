@@ -40,6 +40,9 @@ class Arrestation
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'arrestations')]
     private Collection $agent;
 
+    #[ORM\ManyToOne(inversedBy: 'arrestations')]
+    private ?JudiciaryCase $judiciaryCase = null;
+
     public function __construct()
     {
         $this->justicePicture = new ArrayCollection();
@@ -240,5 +243,17 @@ class Arrestation
         } else {
             return $da;
         }
+    }
+
+    public function getJudiciaryCase(): ?JudiciaryCase
+    {
+        return $this->judiciaryCase;
+    }
+
+    public function setJudiciaryCase(?JudiciaryCase $judiciaryCase): self
+    {
+        $this->judiciaryCase = $judiciaryCase;
+
+        return $this;
     }
 }

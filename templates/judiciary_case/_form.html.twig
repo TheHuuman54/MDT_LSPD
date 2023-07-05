@@ -1,0 +1,22 @@
+<div class="container text-light mt-4">
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-4">
+            {{ form_row(form.date) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.suspect) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.magistrate) }}
+        </div>
+    </div>
+    <div class="row">
+        {{ form_row(form.decision) }}
+    </div>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-success">{{ button_label|default('Valider') }}</button>
+    </div>
+    {{ form_end(form) }}
+</div>
+

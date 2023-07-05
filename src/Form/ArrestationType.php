@@ -44,11 +44,6 @@ class ArrestationType extends AbstractType
             ->add('date', DateTimeType::class, [
                 'label'=> 'Date d\'arrestation :',
                 'data' => new \DateTime('now'),
-//                'disabled' => true
-//                'placeholder' => [
-//                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
-//                    'hour' => 'Heure', 'minute' => 'Minute',
-//                ]
                 ])
             ->add('agent', EntityType::class, [
                 'class' => User::class,
@@ -74,10 +69,12 @@ class ArrestationType extends AbstractType
                 'required'=> false
             ])
             ->add('gavStart', DateTimeType::class, [
-                'label' => 'Début de G.A.V :'
+                'label' => 'Début de G.A.V :',
+                'data' => new \DateTime('now'),
             ])
             ->add('gavEnd', DateTimeType::class, [
-                'label' => 'Fin de G.A.V :'
+                'label' => 'Fin de G.A.V :',
+                'data' => new \DateTime('now'),
             ])
             ->add(
                 'sentences',
