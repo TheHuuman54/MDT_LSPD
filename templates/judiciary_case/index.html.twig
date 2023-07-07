@@ -31,8 +31,13 @@
                         <td>{{ judiciary_case.decision }}</td>
                         <td>
                             <a href="{{ path('app_judiciary_case_show', {'id': judiciary_case.id}) }}" class="text-decoration-none">&#128065;&#65039;</a>
+                            {% if is_granted('ROLE_LSPD') %}
                             <a href="{{ path('app_judiciary_case_edit', {'id': judiciary_case.id}) }}" class="text-decoration-none">&#9997;</a>
-                            {{ include('judiciary_case/_delete_form.html.twig') }}
+                            <form method="post" action="{{ path('app_judiciary_case_delete', {'id': judiciary_case.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir supprimer ce casier judiciaire ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ judiciary_case.id) }}">
+                            <button class="btn btn-link text-decoration-none">&#128465;&#65039;</button>
+                            </form>
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}
@@ -45,9 +50,11 @@
         </div>
 
     </div>
+    {% if is_granted('ROLE_LSPD') %}
 <div class="d-flex justify-content-end">
     <a href="{{ path('app_judiciary_case_new') }}"><button class="btn btn-warning">Créer un nouveau casier</button></a>
 </div>
+    {% endif %}
 </div>
 
 {% endblock %}

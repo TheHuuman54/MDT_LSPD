@@ -37,8 +37,10 @@
                         <td>{{ civil.telNumber }}</td>
                         <td>
                             <a href="{{ path('app_civil_show', {'id': civil.id}) }}" class="text-decoration-none">&#128065;&#65039;</a>
+                            {% if is_granted('ROLE_LSPD') %}
                             <a href="{{ path('app_civil_edit', {'id': civil.id}) }}" class="text-decoration-none">&#9997;</a>
                             <a href="{{ path('app_arrestation_new') }}" class="text-decoration-none"><img  height="20px" class="emojidex-emoji" src="https://cdn.emojidex.com/emoji/seal/hand_cuffs.png" emoji-code="hand_cuffs" alt="hand cuffs"></a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}
@@ -48,9 +50,11 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% if is_granted('ROLE_LSPD') %}
             <div class="d-flex justify-content-end">
                 <a href="{{ path('app_civil_new') }}"><button class="btn btn-warning">Nouveau recensement</button></a>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

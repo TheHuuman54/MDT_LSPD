@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1 class="text-center mt-5">{{ civil.firstname }} {{ civil.lastname }}</h1>
-<div class="container d-flex justify-content-center">
+<div class="container d-flex justify-content-between">
     <div class="col-md-6">
         <div class="card mt-5" style=" width: 450px">
             {% if civil.fixPicture is null %}
@@ -46,30 +46,37 @@
                     <li class="list-group-item">Permis de conduire : {{ civil.checkDriveCard }}</li>
                     <li class="list-group-item">Numéro de téléphone : {{ civil.telNumber }}</li>
                 </ul>
-                <a href="{{ path('app_arrestation_new') }}" class="btn btn-outline-danger">Arrêter {{ civil.firstname }} {{ civil.lastname }}</a>
+                <div class="d-flex justify-content-between mt-3">
+                    {% if is_granted('ROLE_LSPD') %}
+                    <a href="{{ path('app_arrestation_new') }}" class="btn btn-danger">Arrêter l'individu</a>
+                    {% endif %}
+                    {% if civil.judiciaryCase %}
+                        <a href="{{ path('app_judiciary_case_show', {'id': civil.judiciaryCase.id}) }}" class="btn btn-primary">Casier Judiciaire</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="card mt-5" style="...">
-            <img src="{{ asset('assets/img/arrestation.jpg') }}" class="" style="height: 310px" alt="arrestation_img">
+            <img src="{{ asset('assets/img/arrestation.jpg') }}" class="img-fluid" style="height: 310px" alt="arrestation_img">
             <div class="card-body">
                 <h5 class="card-title text-center">Arrestations de : {{ civil.firstname }} {{ civil.lastname }}</h5>
                 <hr>
                 <ul class="list-group list-group-flush">
                     {% for arrestation in civil.arrestations %}
-                    <li class="list-group-item"><a href="{{ path('app_arrestation_show', {'id': arrestation.id}) }}">Arrestation du {{ arrestation.date|date("d/m/Y") }}</a></li>
+                        <li class="list-group-item"><a href="{{ path('app_arrestation_show', {'id': arrestation.id}) }}">Arrestation du {{ arrestation.date|date("d/m/Y") }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
 </div>
-<div class="d-flex justify-content-end">
-    <a href="{{ path('app_civil_index') }}"><button class="btn btn-success">Retour aux civils</button></a>
-    <a href="{{ path('app_civil_edit', {'id': civil.id}) }}"><button class="btn btn-warning">Modifier</button></a>
-
-    {{ include('civil/_delete_form.html.twig') }}
-</div>
-
+    <div class="d-flex justify-content-end m-3">
+        <a href="{{ path('app_civil_index') }}"><button class="btn btn-success">Retour aux civils</button></a>
+        {% if is_granted('ROLE_LSPD') %}
+            <a href="{{ path('app_civil_edit', {'id': civil.id}) }}"><button class="btn btn-warning">Modifier</button></a>
+            {{ include('civil/_delete_form.html.twig') }}
+        {% endif %}
+    </div>
 {% endblock %}

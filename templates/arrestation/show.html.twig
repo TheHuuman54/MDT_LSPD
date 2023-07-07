@@ -13,24 +13,28 @@
 <div class="container mb-5">
     <div class="d-md-flex justify-content-between mt-3">
         <div class="card" style="width: 24rem;">
+            <h5 class="text-center mt-4">Informations Personnelles : </h5>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Agent(s) présent(s) :
+                <li class="list-group-item"><b>Agent(s) présent(s) :</b>
                     {% for a in arrestation.agent %}
+                        <br>
                     {{ a.matricule }} - {{ a.firstname }} {{ a.lastname }}
                     {% endfor %}
                 </li>
-                <li class="list-group-item">ID Unique : {{ arrestation.suspect.idUnique }}</li>
-                <li class="list-group-item">Date d'arrestation : {{ arrestation.date ? arrestation.date|date('d/m/Y H:i') : '' }}</li>
-                <li class="list-group-item">Numéro de téléphone : {{ arrestation.suspect.telNumber }}</li>
-                <li class="list-group-item">Date de naissance : {{ arrestation.suspect.age ? arrestation.suspect.age|date('d/m/Y') : '' }}</li>
-                <li class="list-group-item">Début GAV : {{ arrestation.gavStart ? arrestation.gavStart|date('d/m/Y H:i') : '' }}</li>
-                <li class="list-group-item">Fin GAV : {{ arrestation.gavEnd ? arrestation.gavEnd|date('d/m/Y H:i') : '' }}</li>
+                <li class="list-group-item"><b>ID Unique : </b>{{ arrestation.suspect.idUnique }}</li>
+                <li class="list-group-item"><b>Date d'arrestation : </b>{{ arrestation.date ? arrestation.date|date('d/m/Y H:i') : '' }}</li>
+                <li class="list-group-item"><b>Numéro de téléphone : </b>{{ arrestation.suspect.telNumber }}</li>
+                <li class="list-group-item"><b>Date de naissance : </b>{{ arrestation.suspect.age ? arrestation.suspect.age|date('d/m/Y') : '' }}</li>
+                <li class="list-group-item"><b>Début GAV : </b>{{ arrestation.gavStart ? arrestation.gavStart|date('d/m/Y H:i') : '' }}</li>
+                <li class="list-group-item"><b>Fin GAV : </b>{{ arrestation.gavEnd ? arrestation.gavEnd|date('d/m/Y H:i') : '' }}</li>
             </ul>
             <div class="card-footer d-inline-flex justify-content-between align-items-end pt-5">
 
                 <a href="{{ path('app_arrestation_index') }}"><button class="btn btn-info">Retour</button></a>
+                {% if is_granted('ROLE_LSPD') %}
                 <a href="{{ path('app_arrestation_edit', {'id': arrestation.id}) }}" class="btn btn-warning">Modifier</a>
                 {{ include('arrestation/_delete_form.html.twig') }}
+                    {% endif %}
             </div>
         </div>
 
@@ -73,8 +77,21 @@
             </div>
             <p class="m-2">Total d'amendes : <b>{{ arrestation.getAllMoneySentences }}</b> $</p>
             <p class="m-2">Total de temps de G.A.V : <b>{{ arrestation.getAllGavTime }}</b> minutes</p>
+            <div class="d-flex justify-content-center">
+                <a href="{{ path('app_judiciary_case_show', {'id': arrestation.suspect.judiciaryCase.id}) }}">
+                    <button class="btn btn-primary">Casier Judiciaire</button>
+                </a>
+            </div>
         </div>
     </div>
+    <p class="text-center mt-5">Lien de la saisie effectué : <a href="{{ arrestation.saisis }}" target="_blank">{{ arrestation.saisis }}</a></p>
+    <br>
+    <p class="text-center text-decoration-underline">Selon les faits suivants, veuillez contacter l'un des magistrats (numéro dans <a href="{{ path('app_phone_book') }}" target="_blank">l'annuaire</a>) en charge de traiter l'affaire :</p>
+    {% for sentence in arrestation.sentences %}
+        <ul>
+            <li>{{ sentence.article }} - {{ sentence.name }} => {{ sentence.ifJudge }}  {{ sentence.ifProcureur }}  {{ sentence.ifAvocat }}</li>
+        </ul>
+    {% endfor %}
     <div class="d-flex justify-content-end mt-4">
         <p><b>Dernière modifiation effectué par</b> : {{ app.user.matricule }} - {{ app.user.firstname }} {{ app.user.lastname }} le {{ arrestation.date|date('d/m/Y à h:m') }}</p>
     </div>

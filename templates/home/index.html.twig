@@ -6,13 +6,13 @@
     <div class="container">
         <div class="row text-center text-light pt-4">
             {% if app.user %}
-                <p> Bonjour, {{ app.user.rank }} {{ app.user.matricule}} {{ app.user.firstname }} {{app.user.lastname}} !!</p>
+                <p> Bonjour, {{ app.user.rank }} {{ app.user.matricule}} {{ app.user.firstname }} {{app.user.lastname}}.</p>
 {#                <p>Vous avez effectué à ce jour : {{ app.user.getStats }} arrestations 2 recensement de civil</p>#}
                 <br>
                 <br>
                 <hr>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="text-center">
                             <a href="{{ path('app_civil_index') }}">
                                 <img class="img-fluid" src="{{ '/assets/img/document.png' }}" style="" alt="Listes des civils">
@@ -25,7 +25,7 @@
                             </b>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="text-center">
                             <a href="{{ path('app_arrestation_index') }}">
                                 <img src="{{ '/assets/img/arrestation.png' }}" alt="liste arrestations" class="">
@@ -38,9 +38,9 @@
                             </b>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="text-center">
-                            <a href="#">
+                            <a href="{{ path('app_judiciary_case_index') }}">
                                 <img src="{{ '/assets/img/casier-judiciaire.png' }}" alt="Listes casiers judiciaire">
                                 <br>
                             </a>
@@ -49,21 +49,10 @@
                             </b>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="text-center">
-                            <a href="#">
-                                <img src="{{ '/assets/img/coffre-fort.png' }}" alt="Listes casiers saisis">
-                                <br>
-                            </a>
-                            <b>
-                                <a href="#" class="text-decoration-none text-light">Casiers des saisis</a>
-                            </b>
-                        </div>
-                    </div>
                 </div>
             {% else %}
                 <p>
-                    Bonjour/Bonsoir, si vous êtes là c'est que soit vous êtes perdu, soit vous sur le Serveur de <b>META RP FA</b>.
+                    Bonjour/Bonsoir, si vous êtes là c'est que soit vous êtes perdu, soit vous êtes sur le Serveur de <b>META RP FA</b>.
                     <br>
                     <br>
 

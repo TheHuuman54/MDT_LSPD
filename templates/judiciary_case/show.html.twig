@@ -6,40 +6,122 @@
     <h1 class="text-center mt-4">Casier judiciare de : {{ judiciary_case.suspect.firstname }} {{ judiciary_case.suspect.lastname }}</h1>
 
     <div class="container ">
-        <table class="table border border-4 rounded bg-light mt-5">
-            <tbody>
-            <tr>
-                <th>Date</th>
-                <td>{{ judiciary_case.date ? judiciary_case.date|date('d/m/Y H:i') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Magistrats sur l'affaire :</th>
-                {% for m in judiciary_case.magistrate %}
-                <td>{{ m.rank }} | {{ m.firstname }} {{ m.lastname }}</td>
+        <div class="row">
+            <div class="col-md-6 mt-5">
+                <div class="card" style="width: 18rem;">
+                    {% if judiciary_case.suspect.fixPicture is null %}
+                        <p class="text-center mt-2">Veuillez ajouter des documents : <a href="{{ path('app_civil_edit', {'id': judiciary_case.suspect.id}) }}">ici</a></p>
+                        <hr>
+                    {% else %}
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-indicators">
+                                {% for iteration in 1..judiciary_case.suspect.fixPicture|length %}
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ iteration - 1 }}" {{ (loop.first ) ?'class="active" aria-current="true"' : '' }} aria-label="Slide {{ iteration }}"></button>
+                                {% endfor %}
+                            </div>
+                            <div class="carousel-inner">
+                                {% for img in judiciary_case.suspect.fixPicture %}
+                                    <div class="carousel-item {{ (loop.first) ? 'active' : ''}}">
+                                        <img class="d-block w-100" src="{{ asset('assets/uploads/documents/mini/300x300-') ~ img.filename }}" alt="{{ img.filename }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Précédent</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Suivant</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">Informations Personnelles :</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>Date du casier :</b> {{ judiciary_case.date|date('d/m/Y H:m') }}</li>
+                        <li class="list-group-item"><b>ID Unique :</b> {{ judiciary_case.suspect.idUnique }}</li>
+                        <li class="list-group-item"><b>Nom :</b> {{ judiciary_case.suspect.lastname }}</li>
+                        <li class="list-group-item"><b>Prénom :</b> {{ judiciary_case.suspect.firstname }}</li>
+                        <li class="list-group-item"><b>Âge :</b> {{ judiciary_case.suspect.age }}</li>
+                        <li class="list-group-item"><b>Sexe :</b> {{ judiciary_case.suspect.gender }}</li>
+                        <li class="list-group-item"><b>Type :</b> {{ judiciary_case.suspect.type }}</li>
+                        <li class="list-group-item"><b>Permis de conduire :</b> {{ judiciary_case.suspect.checkDriveCard }}</li>
+                        <li class="list-group-item"><b>PPA :</b> {{ judiciary_case.suspect.checkPPA }}</li>
+                    </ul>
+                    <div class="card-body d-flex justify-content-center">
+                        <a href="{{ path('app_civil_show', {'id': judiciary_case.suspect.id}) }}" class="card-link"><button class="btn btn-primary">Fiche du Civil</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-5">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ asset('assets/img/doj.jpeg') }}" class="card-img-top img-fluid" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Décisions de Justice :</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <b>Magistrats :</b>
+                                {% for m in judiciary_case.magistrate %}
+                                    <br>
+                                - {{ m.rank }} {{ m.firstname }} {{ m.lastname }}
+                                {% endfor %}
+                            </li>
+                        <li class="list-group-item">
+                            <b>Total d'amendes à ce jour :</b> <br>   {{ judiciary_case.suspect.allMoneySentence }} $
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <p class="card-text"><b>Verdict :</b>
+                            <br>
+                            {{ judiciary_case.decision }}</p>
+                    </div>
+                </div>
+        </div>
+            <h5 class="text-center mt-5">Listes des Arrestations de {{ judiciary_case.suspect.firstname }} {{ judiciary_case.suspect.lastname }}</h5>
+            <table class="table table-hover bg-light mt-3 rounded">
+                <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Agent présents</th>
+                    <th scope="col">Nombres de faits</th>
+                    <th scope="col">Amendes</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for a in judiciary_case.suspect.arrestations %}
+                <tr>
+                    <th scope="row">{{ a.date|date('d/m/Y à H:m') }}</th>
+                    <td>
+                        {% for agent in a.agent %}
+                            [{{ agent.matricule }}]
+                        {% endfor %}
+                    </td>
+                    <td>{{ a.countTotalSentence }}</td>
+                    <td>{{ a.getAllMoneySentences }} $</td>
+                    <td>
+                        <a href="{{ path('app_arrestation_show', {'id': a.id}) }}" class="text-decoration-none">&#128065;&#65039;</a>
+                    </td>
+                </tr>
                 {% endfor %}
-            </tr>
-            <tr>
-                <th>Suspect :</th>
-                <td>{{ judiciary_case.suspect.firstname }} {{ judiciary_case.suspect.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Décision</th>
-                <td>{{ judiciary_case.decision }}</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div class="d-flex justify-content-between">
+                </tbody>
+            </table>
+        <div class="d-flex justify-content-between mt-5">
             <a href="{{ path('app_judiciary_case_index') }}">
                 <button class="btn btn-warning">Retour à la liste</button>
             </a>
+            {% if is_granted('ROLE_LSPD') %}
             {{ include('judiciary_case/_delete_form.html.twig') }}
             <a href="{{ path('app_judiciary_case_edit', {'id': judiciary_case.id}) }}">
                 <button class="btn btn-success">
-                    Valider
+                    Modifier
                 </button>
             </a>
+            {% endif %}
         </div>
-
+    </div>
     </div>
 {% endblock %}

@@ -82,39 +82,13 @@ class ArrestationType extends AbstractType
                 [
                     'class' => Sentences::class,
                     'label' => "Faits Commis",
-//                    'expanded' => true,
                     'multiple' => true,
                     'group_by' => 'category',
-//                    'required' => false,
-                    //'choices_as_values' => true,
-//                    'choice_label' => function ($value, $key, $index) {
-//                        return $value;
-//                    },
-//                    'choices' => $this->getSentencesList(),
                     'autocomplete' => true
                 ])
-//            ->add('sentences', EntityType::class, [
-//                'class' => Sentences::class,
-//                'query_builder' => function (SentencesRepository $er) {
-//                    return $er->createQueryBuilder('u')
-////                        ->andwhere('u.category = :categoryId')
-////                        ->setParameter('categoryId', 1)
-//                        ->orderBy('u.category', 'ASC');
-//
-//                },
-//                'label' => 'Faits Commis',
-//                'choice_label' => 'name',
-//                'multiple' => true,
-//                'expanded' => true,
-//            ])
-
-//            ->add('sentences', EntityType::class, [
-//                'class' => Sentences::class,
-//                'label' => 'Délits Majeurs',
-//                'choice_label' => 'name',
-//                'multiple' => true,
-//                'expanded' => true,
-//            ])
+            ->add('saisis', TextType::class,[
+                'label' => 'Saisis (insérer le lien discord de la saisis effectué'
+            ])
         ;
     }
 

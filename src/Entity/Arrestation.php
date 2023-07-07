@@ -43,6 +43,9 @@ class Arrestation
     #[ORM\ManyToOne(inversedBy: 'arrestations')]
     private ?JudiciaryCase $judiciaryCase = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $saisis = null;
+
     public function __construct()
     {
         $this->justicePicture = new ArrayCollection();
@@ -50,6 +53,10 @@ class Arrestation
         $this->agent = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return 'Arrestation du : '. $this->getDate()->format('d/m/Y à H:m'). ' de '. $this->getSuspect();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -178,6 +185,7 @@ class Arrestation
         {
             $totalMoneySentence += $s->getMoney();
         }
+
         return $totalMoneySentence;
     }
 
@@ -256,4 +264,22 @@ class Arrestation
 
         return $this;
     }
+
+    public function countTotalSentence(): int
+    {
+        return count($this->getSentences());
+    }
+
+    public function getSaisis(): ?string
+    {
+        return $this->saisis;
+    }
+
+    public function setSaisis(?string $saisis): self
+    {
+        $this->saisis = $saisis;
+
+        return $this;
+    }
+
 }

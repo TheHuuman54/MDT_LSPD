@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Classe\Search;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -19,9 +22,13 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatorInterface $paginator;
+
+
+    public function __construct(PaginatorInterface $paginator, ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+        $this->paginator = $paginator;
     }
 
     public function save(User $entity, bool $flush = false): void
@@ -56,6 +63,27 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+    public function findWidthSearch(Search $search): PaginationInterface
+    {
+        $query = $this
+            ->createQueryBuilder('a');
+
+
+        if (!empty($search->string)) {
+            $query = $query
+                ->andWhere('a.firstname LIKE :string')
+                ->setParameter('string', "%{$search->string}%");
+        }
+
+        /* if (!empty($search->nationalities)) {
+             $query = $query
+                 ->andWhere('hi.country IN (:country)')
+                 ->setParameter('country', $search->nationalities);
+         }*/
+
+        $query->getQuery()->getResult();
+        return $this->paginator->paginate($query,$search->page,10);
+    }
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

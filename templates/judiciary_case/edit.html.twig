@@ -3,6 +3,7 @@
 {% block title %}Modifier{% endblock %}
 
 {% block content %}
+    {% if is_granted('ROLE_LSPD') %}
     <h1 class="text-center mt-4">Modifier casier judiciaire de : {{ judiciary_case.suspect.firstname }} {{ judiciary_case.suspect.lastname }}</h1>
 
 <hr>
@@ -12,4 +13,8 @@
         <a href="{{ path('app_judiciary_case_index') }}"><button class="btn btn-warning">Retour à la liste</button></a>
         {{ include('judiciary_case/_delete_form.html.twig') }}
     </div>
+    {% else %}
+        <h1 class="text-center mt-5">404 ERROR NOT FOUND</h1>
+        <p class="text-center mt-5">Vous ne disposez pas des droits nécessaires</p>
+    {% endif %}
 {% endblock %}

@@ -194,4 +194,35 @@ class Sentences
 
         return $this;
     }
+
+    public function ifJudge()
+    {
+        if($this->isJudge())
+        {
+            return "Juge";
+        }  else {
+            return null;
+        }
+    }
+
+    public function ifAvocat()
+    {
+        if($this->isJudge())
+        {
+            return "| Avocat";
+        }  else {
+            return null;
+        }
+    }
+    public function ifProcureur()
+    {
+        if($this->isProcureur())
+        {
+            return "| Procureur";
+        }  else {
+            return null;
+        }
+    }
+
+
 }

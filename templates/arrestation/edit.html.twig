@@ -3,7 +3,7 @@
 {% block title %}Modifier l'arrestation - {{ arrestation.suspect.firstname }} {{ arrestation.suspect.lastname }}{% endblock %}
 
 {% block content %}
-    {% if app.user %}
+    {% if is_granted('ROLE_LSPD') %}
     <h1 class="text-center mt-5">Modifier l'arrestation</h1>
 <div class="container">
     {{ include('arrestation/_form.html.twig', {'button_label': 'Valider'}) }}

@@ -22,14 +22,15 @@ class JudiciaryCase
     #[ORM\OneToMany(mappedBy: 'judiciaryCase', targetEntity: Arrestation::class)]
     private Collection $arrestations;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Civil $suspect = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $decision = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'judiciaryCases')]
     private Collection $magistrate;
+
+    #[ORM\OneToOne(inversedBy: 'judiciaryCase', cascade: ['persist', 'remove'])]
+    private ?Civil $suspect = null;
 
     public function __construct()
     {
@@ -84,18 +85,6 @@ class JudiciaryCase
         return $this;
     }
 
-    public function getSuspect(): ?Civil
-    {
-        return $this->suspect;
-    }
-
-    public function setSuspect(?Civil $suspect): self
-    {
-        $this->suspect = $suspect;
-
-        return $this;
-    }
-
     public function getDecision(): ?string
     {
         return $this->decision;
@@ -128,6 +117,18 @@ class JudiciaryCase
     public function removeMagistrate(User $magistrate): self
     {
         $this->magistrate->removeElement($magistrate);
+
+        return $this;
+    }
+
+    public function getSuspect(): ?Civil
+    {
+        return $this->suspect;
+    }
+
+    public function setSuspect(?Civil $suspect): self
+    {
+        $this->suspect = $suspect;
 
         return $this;
     }

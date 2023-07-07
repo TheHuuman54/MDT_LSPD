@@ -48,6 +48,9 @@ class Civil
     #[ORM\Column(nullable: true)]
     private ?bool $driveCard = null;
 
+    #[ORM\OneToOne(mappedBy: 'suspect', cascade: ['persist', 'remove'])]
+    private ?JudiciaryCase $judiciaryCase = null;
+
     public function __construct()
     {
         $this->documents = new ArrayCollection();
@@ -270,5 +273,42 @@ class Civil
         } else {
             return 'Invalide';
         }
+    }
+
+    public function getJudiciaryCase(): ?JudiciaryCase
+    {
+        return $this->judiciaryCase;
+    }
+
+    public function setJudiciaryCase(?JudiciaryCase $judiciaryCase): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($judiciaryCase === null && $this->judiciaryCase !== null) {
+            $this->judiciaryCase->setSuspect(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($judiciaryCase !== null && $judiciaryCase->getSuspect() !== $this) {
+            $judiciaryCase->setSuspect($this);
+        }
+
+        $this->judiciaryCase = $judiciaryCase;
+
+        return $this;
+    }
+
+    public function getAllMoneySentence()
+    {
+        $money = null;
+        foreach($this->getArrestations() as $a)
+            {
+                $money += $a->getAllMoneySentences();
+            }
+        $inputString = $money;
+        $pattern = '/(?<=\d)(?=(\d{3})+(?!\d))/';
+        $replacement = ' ';
+        $outputString = preg_replace($pattern, $replacement, $inputString);
+
+        return $outputString;
     }
 }
