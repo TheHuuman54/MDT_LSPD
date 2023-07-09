@@ -57,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString()
     {
-        return $this->getRank() . ' ' .'[' . $this->getMatricule() .']'. $this->getFirstname() . $this->getLastname();
+        return '[' . $this->getMatricule() .'] '. $this->getFirstname()  . ' '. $this->getLastname();
     }
     public function __construct()
     {

@@ -48,7 +48,6 @@ class ArrestationType extends AbstractType
             ->add('agent', EntityType::class, [
                 'class' => User::class,
                 'label' => 'Agent(s) présents :',
-                'choice_label' => 'lastname',
                 'multiple' => true,
                 'autocomplete' => true,
             ])

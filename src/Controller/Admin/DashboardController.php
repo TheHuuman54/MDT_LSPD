@@ -54,12 +54,12 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Retour au site', 'fa fa-home', 'app_home');
         yield MenuItem::linkToCrud('User', 'fa fa-users', User::class);
         yield MenuItem::linkToCrud('Civils','fa-solid fa-person',Civil::class);
-        yield MenuItem::linkToCrud('Arrestations', 'fa-solid fa-handcuffs', Arrestation::class);
+//        yield MenuItem::linkToCrud('Arrestations', 'fa-solid fa-handcuffs', Arrestation::class);
         yield MenuItem::linkToCrud('Peines et amendes', 'fa-solid fa-scale-balanced',Sentences::class);
         yield MenuItem::linkToCrud('Rang', 'fa-solid fa-ranking-star', Rank::class);
         yield MenuItem::linkToCrud('Ethnie', 'fa fa-user', Ethnie::class);
         yield MenuItem::linkToCrud('Genre', 'fa fa-transgender-alt', Gender::class);
-        yield MenuItem::linkToCrud('Casier Judiciaire', 'fa fa-user', JudiciaryCase::class);
+//        yield MenuItem::linkToCrud('Casier Judiciaire', 'fa fa-user', JudiciaryCase::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }
