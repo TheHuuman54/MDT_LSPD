@@ -6,6 +6,7 @@ use App\Entity\Arrestation;
 use App\Entity\Civil;
 use App\Entity\Ethnie;
 use App\Entity\Gender;
+use App\Entity\JudiciaryCase;
 use App\Entity\Pictures;
 use App\Entity\Rank;
 use App\Entity\Sentences;
@@ -45,7 +46,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('MDT LSPDV2');
+            ->setTitle('MDT LSPD');
     }
 
     public function configureMenuItems(): iterable
@@ -58,6 +59,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Rang', 'fa-solid fa-ranking-star', Rank::class);
         yield MenuItem::linkToCrud('Ethnie', 'fa fa-user', Ethnie::class);
         yield MenuItem::linkToCrud('Genre', 'fa fa-transgender-alt', Gender::class);
+        yield MenuItem::linkToCrud('Casier Judiciaire', 'fa fa-user', JudiciaryCase::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }
