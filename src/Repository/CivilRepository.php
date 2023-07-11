@@ -53,15 +53,15 @@ class CivilRepository extends ServiceEntityRepository
 
         if (!empty($search->string)) {
             $query = $query
-                ->andWhere('f.firstname LIKE :string')
-                ->setParameter('string', "%{$search->string}%");
+                ->andWhere('f.firstname LIKE :name OR f.lastname LIKE :name')
+                ->setParameter('name', "%{$search->string}%");
         }
 
-        /* if (!empty($search->nationalities)) {
-             $query = $query
-                 ->andWhere('hi.country IN (:country)')
-                 ->setParameter('country', $search->nationalities);
-         }*/
+//        if (!empty($search->string)) {
+//            $query = $query
+//                ->andWhere('f.firstname LIKE :string')
+//                ->setParameter('string', "%{$search->string}%");
+//        }
 
         $query->getQuery()->getResult();
         return $this->paginator->paginate($query,$search->page,10);

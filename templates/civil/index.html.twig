@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row mt-4">
         <div class="col-md-2">
-            <h4 class="fs-5">Rechercher par nom :</h4>
+            <h5 class="fs-6">Rehercher par Prénom :</h5>
             <form>
                 {{ form_row(form.string) }}
                 {{ form_widget(form.filtrer) }}
@@ -50,6 +50,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center">
+                {{ knp_pagination_render(civils) }}
+            </div>
             {% if is_granted('ROLE_LSPD') %}
             <div class="d-flex justify-content-end">
                 <a href="{{ path('app_civil_new') }}"><button class="btn btn-warning">Nouveau recensement</button></a>
