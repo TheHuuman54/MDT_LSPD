@@ -3,7 +3,6 @@
 {% block title %}{{ arrestation.suspect.firstname }} {{ arrestation.suspect.lastname }}{% endblock %}
 
 {% block content %}
-    {% if app.user %}
     <h1 class="text-center mt-5">Arrestation de : {{ arrestation.suspect.firstname }} {{ arrestation.suspect.lastname }}</h1>
         <br>
         <hr>
@@ -24,7 +23,7 @@
                 <li class="list-group-item"><b>ID Unique : </b>{{ arrestation.suspect.idUnique }}</li>
                 <li class="list-group-item"><b>Date d'arrestation : </b>{{ arrestation.date ? arrestation.date|date('d/m/Y H:i') : '' }}</li>
                 <li class="list-group-item"><b>Numéro de téléphone : </b>{{ arrestation.suspect.telNumber }}</li>
-                <li class="list-group-item"><b>Date de naissance : </b>{{ arrestation.suspect.age ? arrestation.suspect.age|date('d/m/Y') : '' }}</li>
+                <li class="list-group-item"><b>Date de naissance : </b>{{ arrestation.suspect.age }} ans</li>
                 <li class="list-group-item"><b>Début GAV : </b>{{ arrestation.gavStart ? arrestation.gavStart|date('d/m/Y H:i') : '' }}</li>
                 <li class="list-group-item"><b>Fin GAV : </b>{{ arrestation.gavEnd ? arrestation.gavEnd|date('d/m/Y H:i') : '' }}</li>
             </ul>
@@ -76,12 +75,20 @@
                 {% endfor %}
             </div>
             <p class="m-2">Total d'amendes : <b>{{ arrestation.getAllMoneySentences }}</b> $</p>
-            <p class="m-2">Total de temps de G.A.V : <b>{{ arrestation.getAllGavTime }}</b> minutes</p>
-            <div class="d-flex justify-content-center">
-                <a href="{{ path('app_judiciary_case_show', {'id': arrestation.suspect.judiciaryCase.id}) }}">
-                    <button class="btn btn-primary">Casier Judiciaire</button>
-                </a>
-            </div>
+            <p class="m-2">Temps G.A.V du code pénal : <b>{{ arrestation.getAllGavTime }}</b> minutes</p>
+            {% if arrestation.suspect.judiciaryCase %}
+                <div class="d-flex justify-content-center">
+                    <a href="{{ path('app_judiciary_case_show', {'id': arrestation.suspect.judiciaryCase.id}) }}">
+                        <button class="btn btn-primary">Casier Judiciaire</button>
+                    </a>
+                </div>
+            {% else %}
+                <div class="d-flex justify-content-center">
+                    <a href="{{ path('app_judiciary_case_new')}}">
+                        <button class="btn btn-warning">Créer un Casier Judiciaire</button>
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
     <p class="text-center mt-5">Lien de la saisie effectué : <a href="{{ arrestation.saisis }}" target="_blank">{{ arrestation.saisis }}</a></p>
@@ -96,10 +103,4 @@
         <p><b>Dernière modifiation effectué par</b> : {{ app.user.matricule }} - {{ app.user.firstname }} {{ app.user.lastname }} le {{ arrestation.date|date('d/m/Y à h:m') }}</p>
     </div>
 </div>
-        {% else %}
-        <h1 class="text-center mt-5">
-            ERROR 404 - NOT FOUND
-        </h1>
-            <p class="mt-5 text-center">La page demandée n'existe pas.</p>
-{% endif %}
 {% endblock %}
