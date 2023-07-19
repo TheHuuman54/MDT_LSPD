@@ -54,12 +54,26 @@ class EasyAdminSubscriber implements EventSubscriberInterface
      */
     public function setPassword(User $entity): void
     {
-        $pass = $entity->getPassword();
+        $plainPassword = $entity->getPassword();
 
-        $entity->setPassword(
-            $this->passwordhasher->hashPassword($entity, $pass));
+        // Check if the password is already hashed
+        if (!$this->passwordhasher->needsRehash($entity)) {
+            // No need to rehash, the password is already hashed
+            return;
+        }
+
+        // If the password is not hashed or needs rehashing, proceed with hashing
+        $hashedPassword = $this->passwordhasher->hashPassword($entity, $plainPassword);
+        $entity->setPassword($hashedPassword);
+
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
+//        $pass = $entity->getPassword();
+//
+//        $entity->setPassword(
+//            $this->passwordhasher->hash($entity, $pass));
+//        $this->entityManager->persist($entity);
+//        $this->entityManager->flush();
     }
 
 }
