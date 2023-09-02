@@ -12,6 +12,7 @@
     <link href="{{ '/assets/css/bootstrap.css' }}" rel="stylesheet">{# CSS bootstrap#}
     <link href="{{ '/assets/css/style.css' }}" rel="stylesheet"> {# CSS perso#}
 </head>
+
 <body class="text-light">
 <a href="{{ path('app_home')}}">
     <img  class="w-100" src="{{ asset('assets/img/banner.gif')}}" alt="logo lspd">
@@ -25,7 +26,6 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 {% if is_granted('ROLE_ADMIN','ROLE_SUPER_ADMIN') %}
@@ -44,6 +44,13 @@
             </form>
         </div>
     </nav>
+
+    <div class="text-center pt-2">
+            Il est <span id="clock">00:00:00</span> le
+            <span id="date">01/01/2023</span>
+    </div>
+
+
 {% endif %}
 
 {% block content %}
@@ -75,6 +82,7 @@
 </div>
 </body>
 <script src="{{ '/assets/js/bootstrap.js' }}"></script>
+<script src="{{ '/assets/js/clock.js' }}"></script>
 {% block javascripts %}
 
 {% endblock %}
