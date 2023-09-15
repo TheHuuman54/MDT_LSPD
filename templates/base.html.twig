@@ -28,6 +28,9 @@
         </button>
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="https://www.paypal.com/donate/?hosted_button_id=5B9SMDFLCN3LN"><button class="btn btn-danger">Aidez-nous &#10084;&#65039;</button></a>
+                </li>
                 {% if is_granted('ROLE_ADMIN','ROLE_SUPER_ADMIN') %}
                 <li class="nav-item">
                         <a class="btn btn-outline-warning" href="{{ path('super_admin') }}">ACCES ADMINISTRATEUR</a>
